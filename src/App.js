@@ -30,6 +30,11 @@ function App() {
       <Write title={posts[0]}></Write>
       <Write title={posts[1]}></Write>
       <Write title={posts[2]}></Write>
+      <div className=''>
+        <h2>제목</h2>
+        <p>날짜</p>
+        <p>상세내용</p>
+      </div>
     </div>
   );
 }
