@@ -6,26 +6,35 @@ import './App.css';
 function App() {
 
   let [posts, setPosts] = useState(["javascript", "Python", "Java"]);
+  let [firsttitle, setFirst] = useState(true);
 
-  function changeTitle() {
-    const newTitle = [...posts];
-    newTitle[0] = "문법 공부하기"
-    setPosts(newTitle);
+  function changeFirst() {
+    setFirst(!firsttitle);
   };
 
+  function changeTitle() {
+    changeFirst()
+    const newTitle = [...posts];
+    const toggleTitle = firsttitle
+      ? "javascript"
+      : "문법 공부하기"
+    newTitle[0] = toggleTitle
+    setPosts(newTitle);
+  };
   return (
     <div className="App">
       <div className='black-nav'>
         <div>개발 Blog</div>
       </div>
-      <Write title={posts[0]} changeTitle={changeTitle}></Write>
+      <button onClick={changeTitle}>제목 바꾸기</button>
+      <Write title={posts[0]}></Write>
       <Write title={posts[1]}></Write>
       <Write title={posts[2]}></Write>
     </div>
   );
 }
 
-function Write({ title, changeTitle }) {
+function Write({ title }) {
 
   let [like, setLike] = useState(true);
 
@@ -38,7 +47,6 @@ function Write({ title, changeTitle }) {
 
   return (
     <div className='list'>
-      <button onClick={changeTitle}>제목 바꾸기</button>
       <h3>{title}<span><button className='button_like' onClick={plusLike}>💘</button></span>{toggleLike}</h3>
       <p>2022-01-29</p>
       <hr></hr>
