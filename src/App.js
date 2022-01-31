@@ -7,6 +7,8 @@ function App() {
 
   let [posts, setPosts] = useState(["javascript", "Python", "Java"]);
   let [firsttitle, setFirst] = useState(true);
+  let [modal, setModal] = useState(false);
+  let [sTitle, setsTitle] = useState(0);
 
   function changeFirst() {
     setFirst(!firsttitle);
@@ -21,26 +23,33 @@ function App() {
     newTitle[0] = toggleTitle
     setPosts(newTitle);
   };
+
+  function changeModal() {
+    setModal(!modal);
+  }
+
+  const newModal = modal
+    ? <Modal posts={posts} sTitle={sTitle} ></Modal>
+    : null
+
   return (
     <div className="App">
       <div className='black-nav'>
         <div>개발 Blog</div>
       </div>
       <button onClick={changeTitle}>제목 바꾸기</button>
-      <Write title={posts[0]}></Write>
-      <Write title={posts[1]}></Write>
-      <Write title={posts[2]}></Write>
-      <div className=''>
-        <h2>제목</h2>
-        <p>날짜</p>
-        <p>상세내용</p>
-      </div>
+      {
+        posts.map((a, i) => {
+          return <Write setsTitle={setsTitle} title={a} i={i}></Write>
+        })
+      }
+      <button onClick={changeModal}>Modal toggle</button>
+      {newModal}
     </div>
   );
 }
 
-function Write({ title }) {
-
+function Write(props) {
   let [like, setLike] = useState(true);
 
   function plusLike() {
@@ -52,12 +61,23 @@ function Write({ title }) {
 
   return (
     <div className='list'>
-      <h3>{title}<span><button className='button_like' onClick={plusLike}>💘</button></span>{toggleLike}</h3>
+      <h3 onClick={() => { props.setsTitle(props.i) }}>{props.title}<span><button className='button_like' onClick={plusLike}>💘</button></span>{toggleLike}</h3>
       <p>2022-01-29</p>
       <hr></hr>
     </div>
   );
 };
+
+function Modal(props,) {
+  return (
+    <div className="modal">
+      <h2>{props.posts[props.sTitle]}</h2>
+      <p>날짜</p>
+      <p>상세내용</p>
+    </div>
+  );
+};
+
 
 
 export default App;
