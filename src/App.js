@@ -10,6 +10,8 @@ function App() {
   let [modal, setModal] = useState(false);
   let [sTitle, setsTitle] = useState(0);
 
+  let [titleInput, setTitleInput] = useState("");
+
   function changeFirst() {
     setFirst(!firsttitle);
   };
@@ -32,6 +34,16 @@ function App() {
     ? <Modal posts={posts} sTitle={sTitle} ></Modal>
     : null
 
+  function changeInput(e) {
+    setTitleInput(e.target.value);
+  };
+
+  function addTitle() {
+    const pushTitle = [...posts];
+    pushTitle.unshift(titleInput);
+    setPosts(pushTitle);
+  };
+
   return (
     <div className="App">
       <div className='black-nav'>
@@ -40,9 +52,13 @@ function App() {
       <button onClick={changeTitle}>제목 바꾸기</button>
       {
         posts.map((a, i) => {
-          return <Write setsTitle={setsTitle} title={a} i={i}></Write>
+          return <Write setsTitle={setsTitle} title={a} i={i} key={i}></Write>
         })
       }
+      <div className='publish'>
+        <input onChange={changeInput}></input>
+        <button onClick={addTitle}>글 추가</button>
+      </div>
       <button onClick={changeModal}>Modal toggle</button>
       {newModal}
     </div>
